@@ -11,13 +11,13 @@ adni <- ADNIMERGE::adnimerge  # load in the adnimerge library
 
 adni_last <- adni %>%
   drop_na(DX) %>%
-  filter(COLPROT == 'ADNI2') %>% # using ADNI2 for this project.
+  filter(COLPROT == 'ADNI1') %>% # using ADNI2 for this project.
   group_by(PTID) %>%
   arrange(M) %>%
   summarise(M = as.numeric(last(M))) # finding the last visit - number of months.
 
 adni_essentials <- adni %>%
-  filter(COLPROT == 'ADNI2') %>%
+  filter(COLPROT == 'ADNI1') %>%
   drop_na(DX) %>%
   mutate(M = as.numeric(M)) %>%
   select(DX, PTID, M) # isolating the essential final DX information in order to do the join for last visit.
@@ -32,7 +32,7 @@ adni_bl <- read_csv('data/adni_bl.csv') # reading in a preprocessed dat that sim
 
 adni_long <- adni_last_measure %>%
   left_join(adni_bl) %>%
-  filter(COLPROT == 'ADNI2')  # then joining with the last visit info table we created.
+  filter(COLPROT == 'ADNI1')  # then joining with the last visit info table we created.
 
 #table(adni_long$DX.bl) Sanity check
 adni_long$X1 <- NULL # removing artifacts
@@ -53,5 +53,5 @@ adni_slim$ABETA <- as.numeric(gsub("[^0-9.]", "", adni_slim$ABETA)) # Standardis
 adni_slim$TAU <- as.numeric(gsub("[^0-9.]", "", adni_slim$TAU))
 adni_slim$PTAU <- as.numeric(gsub("[^0-9.]", "", adni_slim$PTAU))
 
-write.csv(adni_slim, 'data/adni2_slim.csv') # writing to csv file
+write.csv(adni_slim, 'data/adni1_slim.csv') # writing to csv file
 
