@@ -5,6 +5,9 @@
 # Session Data files
 .RData
 .RDataTmp
+data/
+results/
+adnimerge_package/
 
 # User-specific files
 .Ruserdata
